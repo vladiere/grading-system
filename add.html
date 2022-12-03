@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Grades</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>  
+    <div class="d-flex flex-column">
+        <center>
+        <div class="ms-5 me-5 add-wall text-center mt-5 shadow-lg">
+        <h2 class="mb-2 pb-2">Add Grades</h2>
+        <hr>
+        <input type="text" class="form-control mb-3" name="studentid" id="studentid" placeholder="Student ID">
+        <input type="text" class="form-control mb-3" name="midterms" id="midterms" placeholder="Midterm">
+        <input type="text" class="form-control mb-3" name="finals" id="finals" placeholder="Final">
+        <hr>
+        <button id="btn_add" class="btn btn-success">Add Grades</button><br>
+        <a href="./admindashboard.html" class="text-decoration-none">Back</a>
+
+        </div>
+        </center>
+    </div>
+</body>
+<script src="./public/jquery.js"></script>
+<script src="./public/add.js"></script>
+</html>

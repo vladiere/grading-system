@@ -1,0 +1,42 @@
+body{
+    background-color: rgb(17, 230, 230);
+}
+.login-wall{
+    background-color: lightblue;
+    padding: 50px;
+    margin: auto;
+    width: 500px;
+    border-style: solid;
+    border-width: medium;
+    border-color: white;
+}
+.login-wall button{
+    width: 100px;
+}
+.register-wall{
+    background-color: lightblue;
+    padding: 50px;
+    margin:auto;
+    width: 500px;
+    border-style: solid;
+    border-width: medium;
+    border-color: white;
+}
+.add-wall{
+    background-color: lightblue;
+    padding: 50px;
+    margin: auto;
+    width: 500px;
+    border-style: solid;
+    border-width: medium;
+    border-color: white;
+}
+.admin-wall{
+    background-color: lightblue;
+    padding: 50px;
+    margin: auto;
+    width: 500px;
+    border-style: solid;
+    border-width: medium;
+    border-color: white;
+}
