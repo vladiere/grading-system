@@ -207,15 +207,15 @@ class backend
         try {
             $db = new database();
             if ($db->getStatus()) {
-                $stmt = $db->getCon()->prepare($this->getUserQuery());
+                $stmt = $db->getCon()->prepare($this->getStudentQuery());
                 $stmt->execute(array($id));
                 $res = $stmt->fetch();
-                if ($res) {
+                if (!$res) {
                     $db->closeConnection();
-                    return true;
+                    return json_encode($res);
                 } else {
                     $db->closeConnection();
-                    return false;
+                    return json_encode($res);
                 }
             } else {
                 return "403";
@@ -239,13 +239,13 @@ class backend
                             return "200";
                         }else{
                             $db->closeConnection();
-                            return "404";
+                            return $this->getOneStudent($studentid);
                         }
                     }else{
                         return "403";
                     }
                 } else {
-                    return "404";
+                    return $this->getOneStudent($studentid);
                 }
             } else {
                 return "403";
@@ -418,6 +418,10 @@ class backend
     private function getUserQuery()
     {
         return "SELECT * FROM `people` JOIN `students` ON `students`.`user_id` = `people`.`ID` WHERE `students`.`user_id` = ?;";
+    }
+    private function getStudentQuery()
+    {
+        return "SELECT * FROM `people` WHERE `ID` = ?";
     }
     private function getStudentsQuery()
     {
