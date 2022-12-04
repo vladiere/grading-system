@@ -207,15 +207,15 @@ class backend
         try {
             $db = new database();
             if ($db->getStatus()) {
-                $stmt = $db->getCon()->prepare($this->getUserQuery());
+                $stmt = $db->getCon()->prepare($this->getStudentQuery());
                 $stmt->execute(array($id));
                 $res = $stmt->fetch();
                 if ($res) {
                     $db->closeConnection();
-                    return true;
+                    return "200";
                 } else {
                     $db->closeConnection();
-                    return false;
+                    return "404";
                 }
             } else {
                 return "403";
@@ -228,30 +228,56 @@ class backend
     private function addStudentsAdmin($studentid,$midterms,$finals){
         try {
             if ($this->checkIfValid($_SESSION["username"], $_SESSION["password"])) {
-                if ($this->getOneStudent($studentid) == true) {
-                    $db = new database();
-                    if ($db->getStatus()) {
-                        $stmt = $db->getCon()->prepare($this->addStudentsAdminQuery());
-                        $stmt->execute(array($studentid,$this->getAdminSubj(),$midterms,$finals, $this->getCurrentDate()));
-                        $result = $stmt->fetch();
-                        if (!$result) {
-                            $db->closeConnection();
-                            return "200";
+                if ($this->getOneStudent($studentid) == "200") {
+                    if ($this->checkStudents($studentid) == "404") {
+                        $db = new database();
+                        if ($db->getStatus()) {
+                            $stmt = $db->getCon()->prepare($this->addStudentsAdminQuery());
+                            $stmt->execute(array($studentid,$this->getAdminSubj(),$midterms,$finals, $this->getCurrentDate()));
+                            $result = $stmt->fetch();
+                            if (!$result) {
+                                $db->closeConnection();
+                                return $this->checkStudents($studentid);
+                            }else{
+                                $db->closeConnection();
+                                return $this->checkStudents($studentid);
+                            }
                         }else{
-                            $db->closeConnection();
-                            return "404";
+                            return "403";
                         }
-                    }else{
-                        return "403";
+                    } else {
+                        return $this->checkStudents($studentid)." empty";
                     }
                 } else {
-                    return "404";
+                    return $this->checkStudents($studentid);
                 }
             } else {
                 return "403";
             }
         } catch (PDOException $th) {
             return $th;
+        }
+    }
+    private function checkStudents($studid)
+    {
+        try {
+            $db = new database();
+            if ($db->getStatus()) {
+                $stmt = $db->getCon()->prepare($this->checkStudentsQuery());
+                $stmt->execute(array($studid, $this->getAdminSubj()));
+                $res = $stmt->fetch();
+                if ($res) {
+                    $db->closeConnection();
+                    return "200";
+                } else {
+                    $db->closeConnection();
+                    return "404";
+                }
+            } else {
+                return "403";
+            }
+        } catch (PDOException $e) {
+            return $e;
         }
     }
     private function updateGrades($subjects,$studentid,$midterms,$finals){
@@ -418,6 +444,14 @@ class backend
     private function getUserQuery()
     {
         return "SELECT * FROM `people` JOIN `students` ON `students`.`user_id` = `people`.`ID` WHERE `students`.`user_id` = ?;";
+    }
+    private function getStudentQuery()
+    {
+        return "SELECT * FROM `people` WHERE `ID` = ?";
+    }
+    private function checkStudentsQuery()
+    {
+        return "SELECT * FROM `students` WHERE `user_id` = ? AND `subjects` = ?";
     }
     private function getStudentsQuery()
     {
